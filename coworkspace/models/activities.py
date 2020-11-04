@@ -23,13 +23,15 @@ class activities (models.Model):
     x_lat = fields.Char(string="Location Lat")
     x_long = fields.Char(string="Location Long")
     x_accuracy = fields.Char(string="Accuracy")
-    x_lead_lat = fields.Char(string="Lead Lat",related='x_lead.x_lat')
-    x_lead_long = fields.Char(string="Lead Long",related='x_lead.x_long')
+    x_lead_lat = fields.Char(string="Lead Latitude",related='x_lead.x_lat')
+    x_lead_long = fields.Char(string="Lead Longitude",related='x_lead.x_long')
+    x_lead_lat_party = fields.Char(string="Customer Latitude",related='x_partner.x_lat')
+    x_lead_long_party = fields.Char(string="Customer Longitude",related='x_partner.x_long')
     x_distance_between = fields.Char(string="x_distance_between")
     isfake = fields.Boolean(string='isFake?',compute='_isfake',store=True)
  
 
-    @api.depends('x_lead_lat', 'x_lead_long','x_lat','x_long')
+    @api.depends('x_lead_lat', 'x_lead_long','x_lat','x_long','x_lead_lat_party','x_lead_long_party')
     def _isfake(self):
         for record in self:
            
@@ -40,8 +42,13 @@ class activities (models.Model):
 
             lat1 = radians(float(record.x_lat))
             lon1 = radians(float(record.x_long))
-            lat2 = radians(float(record.x_lead_lat))
-            lon2 = radians(float(record.x_lead_long))
+            if record.x_lead:
+                lat2 = radians(float(record.x_lead_lat))
+                lon2 = radians(float(record.x_lead_long))
+            else:
+                lat2 = radians(float(record.x_lead_lat_party))
+                lon2 = radians(float(record.x_lead_long_party))
+
 
             dlon = lon2 - lon1
             dlat = lat2 - lat1
