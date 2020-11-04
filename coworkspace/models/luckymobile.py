@@ -59,6 +59,7 @@ class luckymobile(models.Model):
     X_subpremise = fields.Text(string="subpremise", required=False)
     X_town_square = fields.Text(string="town_square", required=False)
     X_formatted_address = fields.Text(string="formatted_address", required=False)
+    x_activities = fields.One2many('x_activity', 'x_lead', string='Acitivites')
 
 
     def get_default_img(self):
@@ -122,7 +123,8 @@ class luckymobile(models.Model):
             'X_formatted_address' :self.X_formatted_address,
             'street' :self.street,
             'mobile' :self.mobile,
-            'user_id':self.user_id.id
+            'user_id':self.user_id.id,
+            'company_type':'company',
             
 
 

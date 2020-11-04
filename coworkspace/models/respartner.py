@@ -58,6 +58,8 @@ class respartner(models.Model):
     X_subpremise = fields.Text(string="subpremise", required=False)
     X_town_square = fields.Text(string="town_square", required=False)
     X_formatted_address = fields.Text(string="formatted_address", required=False)
+    x_activities = fields.One2many('x_activity', 'x_partner', string='Acitivites')
+  
 
 
     
